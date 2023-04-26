@@ -26,12 +26,20 @@ namespace DataProtection.web.Controllers
         {
             var products = await _context.Products.ToListAsync();
 
+            var timeLimited = _dataProtector.ToTimeLimitedDataProtector();
+
+            //products.ForEach(x =>
+            //{
+            //    x.EncrypedId = _dataProtector.Protect(x.Id.ToString());
+            //});
+
+
             products.ForEach(x =>
             {
-                x.EncrypedId = _dataProtector.Protect(x.Id.ToString());
+                x.EncrypedId = timeLimited.Protect(x.Id.ToString(),TimeSpan.FromSeconds(6));
             });
 
-              return _context.Products != null ? 
+            return _context.Products != null ? 
                           View(products) :
                           Problem("Entity set 'AspNetSecurityDbContext.Products'  is null.");
         }
@@ -44,7 +52,11 @@ namespace DataProtection.web.Controllers
                 return NotFound();
             }
 
-            int decryptedId = int.Parse(_dataProtector.Unprotect(id));
+            var timeLimited = _dataProtector.ToTimeLimitedDataProtector();
+
+
+            int decryptedId = int.Parse(timeLimited.Unprotect(id));
+            //int decryptedId = int.Parse(_dataProtector.Unprotect(id));
 
             var product = await _context.Products
                 .FirstOrDefaultAsync(m => m.Id == decryptedId);
