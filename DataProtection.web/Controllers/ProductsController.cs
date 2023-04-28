@@ -22,7 +22,7 @@ namespace DataProtection.web.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index() 
         {
             var products = await _context.Products.ToListAsync();
 
