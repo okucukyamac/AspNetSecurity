@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using WhiteBlackList.Web.Filters;
 using WhiteBlackList.Web.Models;
 
 namespace WhiteBlackList.Web.Controllers
@@ -13,6 +14,7 @@ namespace WhiteBlackList.Web.Controllers
             _logger = logger;
         }
 
+        [ServiceFilter(typeof(CheckWhiteList))]
         public IActionResult Index()
         {
             return View();

@@ -22,7 +22,7 @@ namespace WhiteBlackList.Web.MiddleWares
 
             var isWhiteList = _ipList.WhiteList.Where(a => IPAddress.Parse(a).Equals(reqIpAdress)).Any();
 
-            if (!isWhiteList)
+            if (isWhiteList)
             {
                 context.Response.StatusCode=(int)HttpStatusCode.Forbidden;
 

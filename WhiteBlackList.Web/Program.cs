@@ -1,3 +1,4 @@
+using WhiteBlackList.Web.Filters;
 using WhiteBlackList.Web.MiddleWares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ builder.Services.AddControllersWithViews();
 
 ConfigurationManager configuration = builder.Configuration;
 
+builder.Services.AddScoped<CheckWhiteList>();
 builder.Services.Configure<IPList>(configuration.GetSection("IPList"));
 
 var app = builder.Build();
@@ -26,7 +28,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseMiddleware<IPSafeMiddleWare>();
+//app.UseMiddleware<IPSafeMiddleWare>();
 
 app.MapControllerRoute(
     name: "default",
