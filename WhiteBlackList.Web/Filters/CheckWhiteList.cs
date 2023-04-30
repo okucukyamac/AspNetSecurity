@@ -25,7 +25,7 @@ namespace WhiteBlackList.Web.Filters
 
             if (!isWhiteList)
             {
-                context.Result = new StatusCodeResult((int)HttpStatusCode.Forbidden);
+                context.Result = new StatusCodeResult(404);
 
                 return;
             }

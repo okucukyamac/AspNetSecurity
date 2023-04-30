@@ -9,7 +9,7 @@ builder.Services.AddControllersWithViews();
 ConfigurationManager configuration = builder.Configuration;
 
 builder.Services.AddScoped<CheckWhiteList>();
-builder.Services.Configure<IPList>(configuration.GetSection("IPList"));
+builder.Services.Configure <IPList>(configuration.GetSection("IPList"));
 
 var app = builder.Build();
 
