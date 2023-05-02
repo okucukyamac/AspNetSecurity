@@ -1,3 +1,5 @@
+using Microsoft.Net.Http.Headers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,11 +11,32 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(opts =>
 {
-    opts.AddDefaultPolicy(builder =>
-    {
-        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 
+    //her fomaine izin verilir
+    //opts.AddDefaultPolicy(builder =>
+    //{
+    //    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+
+    //});
+
+    //girilen domainin tüm metotlarýna izin veilir
+    //opts.AddPolicy("AllowSites", builder =>
+    //{
+    //    builder.WithOrigins("https://localhost:7165").AllowAnyHeader().AllowAnyMethod();
+    //});
+
+    //girilen domainin headerýnda örnek cümle olanlara izin verilir. benzeri metot için yapýlabilir
+    //opts.AddPolicy("AllowSites2", builder =>
+    //{
+    //    builder.WithOrigins("https://mysite.com").WithHeaders(HeaderNames.ContentType, "x-custom-header");
+    //});
+
+    // örnek websitesindeki subdomainlerin hepsi
+    opts.AddPolicy("AllowSites", builder =>
+    {
+        builder.WithOrigins("https://*.example.com").SetIsOriginAllowedToAllowWildcardSubdomains().AllowAnyHeader().AllowAnyMethod();
     });
+
 });
 
 
@@ -29,7 +52,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors();
+app.UseCors("AllowSites2");
 
 app.UseAuthorization();
 
